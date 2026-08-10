@@ -66,8 +66,14 @@ export default function NewMoviePage() {
         body: JSON.stringify({
           ...form,
           cast: [],
-          releaseYear: form.releaseYear === "" ? null : Number(form.releaseYear),
-          duration: form.duration === "" ? null : Number(form.duration),
+          releaseYear: form.releaseYear
+            ? Number(form.releaseYear)
+            : null,
+
+          duration: form.duration
+            ? Number(form.duration)
+            : null,
+            
           videoUrl: form.videoUrl || null,
           posterUrl: form.posterUrl || null,
           backdropUrl: form.backdropUrl || null,
