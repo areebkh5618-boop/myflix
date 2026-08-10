@@ -1,8 +1,15 @@
 "use client";
 
-import { FormEvent, Suspense, useState } from "react";
+import {
+  type FormEvent,
+  Suspense,
+  useState,
+} from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import {
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
@@ -40,14 +47,14 @@ function LoginContent() {
         redirect: false,
       });
 
-      if (result?.error) {
+      if (!result || result.error) {
         toast.error("Invalid email or password");
         return;
       }
 
       toast.success("Welcome back!");
 
-      router.push(callbackUrl);
+      router.replace(callbackUrl);
       router.refresh();
     } catch (error) {
       console.error("Sign-in error:", error);
@@ -143,7 +150,7 @@ function LoginContent() {
         <p className="text-center text-sm text-white/60">
           New to MyFlix?{" "}
           <Link
-            href="/register"
+            href="/signup"
             className="font-medium text-red-500 transition hover:text-red-400 hover:underline"
           >
             Sign up free
@@ -157,9 +164,9 @@ function LoginContent() {
 function LoginLoading() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-black">
-      <div className="text-sm text-white/60">
+      <p className="text-sm text-white/60">
         Loading sign-in page...
-      </div>
+      </p>
     </main>
   );
 }
