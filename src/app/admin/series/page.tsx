@@ -1,6 +1,7 @@
 import prisma from "@/lib/db";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { DeleteSeriesButton } from "@/components/admin/delete-series-button";
 
 export default async function AdminSeriesPage() {
   const series = await prisma.content.findMany({
@@ -52,9 +53,12 @@ export default async function AdminSeriesPage() {
                 </td>
                 <td className="p-3">{s.viewCount}</td>
                 <td className="p-3">
-                  <Link href={`/admin/series/${s.id}`} className="text-primary hover:underline text-xs">
-                    Manage
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <Link href={`/admin/series/${s.id}`} className="text-primary hover:underline text-xs">
+                      Manage
+                    </Link>
+                    <DeleteSeriesButton seriesId={s.id} />
+                  </div>
                 </td>
               </tr>
             ))}
