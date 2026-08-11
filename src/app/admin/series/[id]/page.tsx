@@ -94,17 +94,34 @@ export default function ManageSeriesPage() {
       ...p,
       episodeNumber: p.episodeNumber + 1,
       title: "",
+
+    async function removeSeries() {
+      if (!confirm("Delete this series permanently?")) return;
+      const res = await fetch(`/api/admin/series/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        toast.success("Deleted");
+        router.push("/admin/series");
+        router.refresh();
+      } else {
+        toast.error("Delete failed");
+      }
+    }
       videoUrl: "",
     }));
     load();
   }
 
   if (loading) return <div className="text-white/50">Loading...</div>;
-  if (!series) return null;
-
-  return (
-    <div className="space-y-8 max-w-3xl">
-      <div>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">{series.title}</h1>
+            <p className="text-white/60 text-sm mt-1">
+              Status: {series.status} · Manage seasons & episodes below
+            </p>
+          </div>
+          <Button variant="danger" size="sm" onClick={removeSeries}>
+            Delete
+          </Button>
         <h1 className="text-3xl font-bold">{series.title}</h1>
         <p className="text-white/60 text-sm mt-1">
           Status: {series.status} · Manage seasons & episodes below
