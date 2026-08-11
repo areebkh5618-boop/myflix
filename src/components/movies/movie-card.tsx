@@ -33,7 +33,7 @@ export function MovieCard({
     <Link
       href={href}
       className={cn(
-        "group relative flex-shrink-0 w-[150px] md:w-[180px] lg:w-[200px]",
+        "group/card relative flex-shrink-0 w-[150px] md:w-[180px] lg:w-[200px]",
         className
       )}
     >
@@ -43,7 +43,7 @@ export function MovieCard({
           <img
             src={posterUrl}
             alt={title}
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+              className="h-full w-full object-cover transition duration-300 group-hover/card:scale-105"
           />
         ) : (
           <div className="flex h-full items-center justify-center bg-card text-muted text-sm p-2 text-center">
@@ -58,7 +58,7 @@ export function MovieCard({
             />
           </div>
         )}
-        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/60 opacity-0 transition flex items-center justify-center group-hover/card:opacity-100">
           <div className="rounded-full bg-white p-2">
             <Play className="h-4 w-4 text-black fill-black" />
           </div>

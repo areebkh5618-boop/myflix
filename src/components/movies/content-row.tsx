@@ -50,12 +50,12 @@ export function ContentRow({ title, items }: ContentRowProps) {
         {title}
       </h2>
 
-      <div className="group relative">
+      <div className="group/row relative">
         <button
           type="button"
           aria-label={`Scroll ${title} left`}
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 z-10 hidden h-full -translate-y-1/2 items-center bg-black/50 px-2 opacity-0 transition group-hover:flex group-hover:opacity-100"
+          className="absolute left-0 top-1/2 z-10 hidden h-full -translate-y-1/2 items-center bg-black/50 px-2 opacity-0 transition group-hover/row:flex group-hover/row:opacity-100"
         >
           <ChevronLeft className="h-8 w-8 text-white" />
         </button>
@@ -83,7 +83,7 @@ export function ContentRow({ title, items }: ContentRowProps) {
           type="button"
           aria-label={`Scroll ${title} right`}
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 z-10 hidden h-full -translate-y-1/2 items-center bg-black/50 px-2 opacity-0 transition group-hover:flex group-hover:opacity-100"
+          className="absolute right-0 top-1/2 z-10 hidden h-full -translate-y-1/2 items-center bg-black/50 px-2 opacity-0 transition group-hover/row:flex group-hover/row:opacity-100"
         >
           <ChevronRight className="h-8 w-8 text-white" />
         </button>

@@ -146,7 +146,7 @@ function Html5Player({
   const saveProgress = useCallback(
     (time: number, dur: number) => {
       const now = Date.now();
-      if (now - lastSave.current < 5000 && time < dur - 2) return;
+      if (now - lastSave.current < 1000 && time < dur - 1) return;
       lastSave.current = now;
       onProgress?.(time, dur);
       fetch(`/api/me/progress/${contentId}`, {
@@ -186,6 +186,9 @@ function Html5Player({
       setPlaying(false);
       if (v.duration) saveProgress(v.currentTime, v.duration);
     };
+    const onSeeked = () => {
+      if (v.duration) saveProgress(v.currentTime, v.duration);
+    };
     const onEnd = () => {
       setPlaying(false);
       if (v.duration) saveProgress(v.duration, v.duration);
@@ -202,6 +205,7 @@ function Html5Player({
     v.addEventListener("loadedmetadata", onMeta);
     v.addEventListener("play", onPlay);
     v.addEventListener("pause", onPause);
+    v.addEventListener("seeked", onSeeked);
     v.addEventListener("ended", onEnd);
     v.addEventListener("waiting", onWait);
     v.addEventListener("canplay", onCanPlay);
@@ -212,6 +216,7 @@ function Html5Player({
       v.removeEventListener("loadedmetadata", onMeta);
       v.removeEventListener("play", onPlay);
       v.removeEventListener("pause", onPause);
+      v.removeEventListener("seeked", onSeeked);
       v.removeEventListener("ended", onEnd);
       v.removeEventListener("waiting", onWait);
       v.removeEventListener("canplay", onCanPlay);
