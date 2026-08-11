@@ -15,7 +15,12 @@ export default async function BrowsePage() {
     redirect("/login");
   }
 
-  const [featured, recent, popular, continueWatching] = await Promise.all([
+  const [
+    featured,
+    recent,
+    popular,
+    continueWatching,
+  ] = await Promise.all([
     prisma.content.findMany({
       where: {
         status: "PUBLISHED",
@@ -77,30 +82,33 @@ export default async function BrowsePage() {
 
   const hero = featured[0] ?? recent[0];
 
-  const continueItems = continueWatching.map((progress) => {
-    const episode = progress.episode;
+  const continueItems = continueWatching.map(
+    (progress) => {
+      const episode = progress.episode;
 
-    const episodeTitle = episode
-      ? `${progress.content.title} S${
-          episode.season?.seasonNumber ?? "?"
-        }E${episode.episodeNumber}`
-      : progress.content.title;
+      const episodeTitle = episode
+        ? `${progress.content.title} S${
+            episode.season?.seasonNumber ?? "?"
+          }E${episode.episodeNumber}`
+        : progress.content.title;
 
-    return {
-      id: progress.content.id,
-      title: episodeTitle,
-      slug: progress.content.slug,
-      posterUrl: progress.content.posterUrl,
-      releaseYear: progress.content.releaseYear,
-      imdbRating: progress.content.imdbRating,
-      type: progress.content.type,
-      progressPercentage: progress.progressPercentage,
-    };
-  });
+      return {
+        id: progress.content.id,
+        title: episodeTitle,
+        slug: progress.content.slug,
+        posterUrl: progress.content.posterUrl,
+        releaseYear: progress.content.releaseYear,
+        imdbRating: progress.content.imdbRating,
+        type: progress.content.type,
+        progressPercentage:
+          progress.progressPercentage,
+      };
+    }
+  );
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <Navbar />
+      <Navbar user={session.user} />
 
       {hero && (
         <section className="relative h-[70vh] w-full md:h-[80vh]">
@@ -108,7 +116,9 @@ export default async function BrowsePage() {
             className="absolute inset-0 bg-cover bg-center"
             style={{
               backgroundImage: `url(${
-                hero.backdropUrl ?? hero.posterUrl ?? ""
+                hero.backdropUrl ??
+                hero.posterUrl ??
+                ""
               })`,
             }}
           />
@@ -137,7 +147,10 @@ export default async function BrowsePage() {
                       : `/movie/${hero.slug}`
                   }
                 >
-                  <Button size="lg" className="gap-2">
+                  <Button
+                    size="lg"
+                    className="gap-2"
+                  >
                     <Play className="h-5 w-5 fill-current" />
                     Play
                   </Button>
@@ -150,7 +163,11 @@ export default async function BrowsePage() {
                       : `/movie/${hero.slug}`
                   }
                 >
-                  <Button size="lg" variant="secondary" className="gap-2">
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    className="gap-2"
+                  >
                     <Info className="h-5 w-5" />
                     More Info
                   </Button>
@@ -169,9 +186,15 @@ export default async function BrowsePage() {
           />
         )}
 
-        <ContentRow title="Recently Added" items={recent} />
+        <ContentRow
+          title="Recently Added"
+          items={recent}
+        />
 
-        <ContentRow title="Popular Now" items={popular} />
+        <ContentRow
+          title="Popular Now"
+          items={popular}
+        />
       </div>
     </div>
   );
